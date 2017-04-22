@@ -1,26 +1,10 @@
-using System;
-using System.ComponentModel;
-using Xamarin.Forms.Internals;
-using Xamarin.Forms.Platform;
-
-namespace Xamarin.Forms
-{
-	[ContentProperty("Text")]
-	[RenderWith(typeof(_LabelRenderer))]
-	[Obsolete("Label is obsolete as of version 3.0.  Please use TextBlock")]
-	public class Label : View, IFontElement, ITextElement, IElementConfiguration<Label>
+public class TextBlock : View, IFontElement, ITextElement, IElementConfiguration<Label>
 	{
 		public static readonly BindableProperty HorizontalTextAlignmentProperty = BindableProperty.Create("HorizontalTextAlignment", typeof(TextAlignment), typeof(Label), TextAlignment.Start,
 			propertyChanged: OnHorizontalTextAlignmentPropertyChanged);
 
-		[Obsolete("XAlignProperty is obsolete as of version 2.0.0. Please use HorizontalTextAlignmentProperty instead.")]
-		public static readonly BindableProperty XAlignProperty = HorizontalTextAlignmentProperty;
-
 		public static readonly BindableProperty VerticalTextAlignmentProperty = BindableProperty.Create("VerticalTextAlignment", typeof(TextAlignment), typeof(Label), TextAlignment.Start,
 			propertyChanged: OnVerticalTextAlignmentPropertyChanged);
-
-		[Obsolete("YAlignProperty is obsolete as of version 2.0.0. Please use VerticalTextAlignmentProperty instead.")]
-		public static readonly BindableProperty YAlignProperty = VerticalTextAlignmentProperty;
 
 		public static readonly BindableProperty TextColorProperty = TextElement.TextColorProperty;
 
@@ -58,13 +42,6 @@ namespace Xamarin.Forms
 			_platformConfigurationRegistry = new Lazy<PlatformConfigurationRegistry<Label>>(() => new PlatformConfigurationRegistry<Label>(this));
 		}
 
-		[Obsolete("Font is obsolete as of version 1.3.0. Please use the Font attributes which are on the class itself.")]
-		public Font Font
-		{
-			get { return (Font)GetValue(FontProperty); }
-			set { SetValue(FontProperty, value); }
-		}
-
 		public FormattedString FormattedText
 		{
 			get { return (FormattedString)GetValue(FormattedTextProperty); }
@@ -99,26 +76,6 @@ namespace Xamarin.Forms
 		{
 			get { return (TextAlignment)GetValue(VerticalTextAlignmentProperty); }
 			set { SetValue(VerticalTextAlignmentProperty, value); }
-		}
-
-		[Obsolete("XAlign is obsolete as of version 2.0.0. Please use HorizontalTextAlignment instead.")]
-		public TextAlignment XAlign
-		{
-			get { return (TextAlignment)GetValue(XAlignProperty); }
-			set { SetValue(XAlignProperty, value); }
-		}
-
-		[Obsolete("YAlign is obsolete as of version 2.0.0. Please use VerticalTextAlignment instead.")]
-		public TextAlignment YAlign
-		{
-			get { return (TextAlignment)GetValue(YAlignProperty); }
-			set { SetValue(YAlignProperty, value); }
-		}
-
-		public FontAttributes FontAttributes
-		{
-			get { return (FontAttributes)GetValue(FontAttributesProperty); }
-			set { SetValue(FontAttributesProperty, value); }
 		}
 
 		public string FontFamily
@@ -158,9 +115,6 @@ namespace Xamarin.Forms
 		static void OnHorizontalTextAlignmentPropertyChanged(BindableObject bindable, object oldValue, object newValue)
 		{
 			var label = (Label)bindable;
-#pragma warning disable 0618 // retain until XAlign removed
-			label.OnPropertyChanged(nameof(XAlign));
-#pragma warning restore 0618
 		}
 
 		static void OnTextPropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
@@ -178,9 +132,6 @@ namespace Xamarin.Forms
 		static void OnVerticalTextAlignmentPropertyChanged(BindableObject bindable, object oldValue, object newValue)
 		{
 			var label = (Label)bindable;
-#pragma warning disable 0618 // retain until YAlign removed
-			label.OnPropertyChanged(nameof(YAlign));
-#pragma warning restore 0618
 		}
 
 		public IPlatformElementConfiguration<T, Label> On<T>() where T : IConfigPlatform
@@ -192,4 +143,3 @@ namespace Xamarin.Forms
 		{
 		}
 	}
-}
